@@ -5,6 +5,7 @@ export interface Shop {
   registrationNumber: string | null
   ownerId: string
   createdAt: string
+  updatedAt: string
 }
 
 export interface CreateShopPayload {

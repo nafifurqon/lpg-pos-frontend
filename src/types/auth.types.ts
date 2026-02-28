@@ -3,13 +3,18 @@ export type UserRole = 'owner' | 'admin'
 export interface User {
   id: string
   email: string
-  name: string | null
   role: UserRole
 }
 
+export interface ApiResponse<T> {
+  message: string
+  result: T
+}
+
 export interface AuthResponse {
+  access_token: string
+  refresh_token: string
   user: User
-  token: string
 }
 
 export interface RegisterPayload {
