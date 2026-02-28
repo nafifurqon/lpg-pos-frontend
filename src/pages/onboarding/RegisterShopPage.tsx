@@ -65,7 +65,6 @@ export function RegisterShopPage() {
           <CardHeader>
             <CardTitle className="text-xl font-bold">Daftarkan Pangkalan Anda</CardTitle>
             <CardDescription>
-              {user?.name ? `Halo, ${user.name}! ` : ''}
               Lengkapi data pangkalan gas LPG Anda untuk melanjutkan.
             </CardDescription>
           </CardHeader>
