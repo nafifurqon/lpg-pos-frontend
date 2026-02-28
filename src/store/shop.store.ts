@@ -10,6 +10,8 @@ interface ShopState {
 interface ShopActions {
   /** Register a new shop for the current authenticated owner. */
   createShop: (payload: CreateShopPayload) => Promise<void>
+  /** Directly set shop state (used to rehydrate after login). */
+  setShop: (shop: Shop | null) => void
   /** Clear shop data (e.g. on logout). */
   clearShop: () => void
 }
@@ -25,6 +27,10 @@ export const useShopStore = create<ShopStore>()(
       // ── Actions ────────────────────────────────────────────────────────────
       createShop: async (payload) => {
         const shop = await createShopApi(payload)
+        set({ shop })
+      },
+
+      setShop: (shop) => {
         set({ shop })
       },
 
