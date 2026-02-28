@@ -18,7 +18,6 @@ export function LoginPage() {
   const navigate = useNavigate()
   const loginWithEmail = useAuthStore((s) => s.loginWithEmail)
   const loginWithGoogle = useAuthStore((s) => s.loginWithGoogle)
-  const shop = useShopStore((s) => s.shop)
 
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -33,8 +32,12 @@ export function LoginPage() {
     },
   })
 
-  /** After successful auth, redirect based on whether the user has a shop. */
+  /** After successful auth, redirect based on whether the user has a shop.
+   * Reads shop state directly from the store (not from the React hook)
+   * to avoid stale closure — the store is updated before this runs.
+   */
   const redirectAfterLogin = () => {
+    const shop = useShopStore.getState().shop
     navigate(shop ? '/dashboard' : '/onboarding/shop')
   }
 

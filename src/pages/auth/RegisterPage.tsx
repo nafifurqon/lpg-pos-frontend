@@ -13,6 +13,7 @@ import { GoogleOAuthButton } from '@/components/shared/GoogleOAuthButton'
 import { PasswordStrengthChecklist } from '@/components/shared/PasswordStrengthChecklist'
 import { registerSchema, type RegisterFormValues } from '@/lib/validations'
 import { useAuthStore } from '@/store/auth.store'
+import { useShopStore } from '@/store/shop.store'
 
 export function RegisterPage() {
   const navigate = useNavigate()
@@ -36,6 +37,14 @@ export function RegisterPage() {
 
   const passwordValue = form.watch('password')
 
+  /** After Google OAuth on the register page, redirect based on whether the user
+   * already has a shop. Reads live store state to avoid stale closure.
+   */
+  const redirectAfterLogin = () => {
+    const shop = useShopStore.getState().shop
+    navigate(shop ? '/dashboard' : '/onboarding/shop')
+  }
+
   const onSubmit = async (values: RegisterFormValues) => {
     setGlobalError(null)
     setIsLoading(true)
@@ -54,7 +63,7 @@ export function RegisterPage() {
     setIsGoogleLoading(true)
     try {
       await loginWithGoogle(code)
-      navigate('/onboarding/shop')
+      redirectAfterLogin()
     } catch {
       setGlobalError('Google login gagal. Silakan coba lagi.')
     } finally {
